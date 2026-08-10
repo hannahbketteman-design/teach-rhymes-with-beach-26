@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teach Rhymes With Beach 2026</title>
+    <meta name="description" content="Teach Rhymes With Beach — a conference for English teachers, teacher-leaders, and instructional coaches. October 18–20, 2026 in Port Aransas, Texas. Hosted by Melanie Mayer Consulting.">
+    <meta property="og:title" content="Teach Rhymes With Beach 2026">
+    <meta property="og:description" content="The conference for English teachers, teacher-leaders, and instructional coaches. October 18–20, 2026, Port Aransas, Texas.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/b90deacc73ea0500829d07ae31e335e845acb252/fantastic-beach-with-palm-trees.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
       
     <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
@@ -34,21 +40,22 @@
         * {
             box-sizing: border-box;
         }
-        html, body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #f8fafc; 
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+        html, body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
             margin: 0;
             padding: 0;
             width: 100%;
-            height: auto !important;
-            min-height: 0 !important;
-            overflow: visible !important;
+            min-height: 100%;
             -webkit-font-smoothing: antialiased;
+            -webkit-overflow-scrolling: touch;
         }
         #root {
             width: 100%;
-            height: auto !important;
-            min-height: 0 !important;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
@@ -235,7 +242,7 @@
             { id: 's2-1', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Leadership Panel', presenterId: 'mckinney', additionalPresenters: ['garrett', 'robbins', 'davis', 'mayer'], audience: 'L', room: 'Building A', description: 'Behind the Scenes: The Work of Authentic Instructional Leadership. Ever wonder what leadership really looks like behind the scenes, beyond the title and the to-do list? In this candid panel, campus administrators and instructional leaders share real-world insights on building trust, staying focused on instruction, and navigating daily challenges. Designed for both aspiring and current leaders, this session offers an honest look at the work and impact of instructional leadership, along with practical takeaways you can use right away.' },
             { id: 's2-2', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Transferencia Académica: El Poder de los Cognados', presenterId: 'caudillo', additionalPresenters: ['deanda'], audience: '4-12', room: 'Building B', description: 'Did you understand the title? Did you use your cognates? In this engaging session, educators will explore how to strategically leverage cognates to accelerate English language development for Emergent Bilingual (EB) students who speak Spanish. Participants will examine the morphological connections between English and Spanish, including common patterns such as English nouns ending in -tion corresponding to Spanish -ción (e.g., information/información, education/educación). By understanding these linguistic bridges, teachers can unlock powerful opportunities for students to make connections across languages, expand vocabulary, and deepen comprehension. Attendees will leave with practical strategies to intentionally integrate cognate instruction into their classrooms, empowering students to better understand how English and Spanish “work” together.' },
             { id: 's2-3', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Making Waves for the Gifted Learner', presenterId: 'bassano', audience: '3-12', room: 'Building C', description: 'Ready to move beyond "more work" and into meaningful challenge? Dive into the world of gifted and twice-exceptional (2E) learners and explore how tiered instruction can transform your classroom. In this session, we’ll unpack key characteristics of G/T students, address the unique needs of 2E learners, and design layered learning experiences that promote depth, complexity, and engagement. Walk away with ready-to-use strategies that help every learner stay afloat—and thrive!' },
-            { id: 's2-4', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Picture Books for STAAR? Are you Kidding?', presenterId: 'briseno', audience: '2-10', room: 'Building D', description: 'Nope! We’re not kidding. Using picture books, these tried-and-true strategies will relax kids into solid academic work, no matter their age or ability. You will leave this session with strategies you can use tomorrow to get students writing high scoring responses to reading, especially those required for the SCRs and the ECRs on STAAR, and weaving reading and writing together. Plus, you’ll get loads of resources for teaching writer’s craft, grammar, and truisms.' },
+            { id: 's2-4', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Picture Books for STAAR? Are You Kidding?', presenterId: 'briseno', audience: '2-10', room: 'Building D', description: 'Nope! We’re not kidding. Using picture books, these tried-and-true strategies will relax kids into solid academic work, no matter their age or ability. You will leave this session with strategies you can use tomorrow to get students writing high scoring responses to reading, especially those required for the SCRs and the ECRs on STAAR, and weaving reading and writing together. Plus, you’ll get loads of resources for teaching writer’s craft, grammar, and truisms.' },
             { id: 's2-5', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Reading Lenses: Transferring Analysis to the ECR', presenterId: 'martin', audience: '3-12', room: 'Building E', description: 'This session uses the Reading Lenses strategy to give students "the academic gift that keeps on giving." In other words, students will discover how to analyze a selection for its potential to produce an extended constructed response prompt and to determine possible answers with text evidence. Join us as we practice this academically empowering skill!' },
             { id: 's3-1', block: 'Session Three', time: 'Mon 2:15 - 3:45 PM', title: 'Cultivating a Little Genius While Making Shakespeare Painless', presenterId: 'bernabei', audience: 'All', room: 'Building E', description: 'Modeling a lesson from Gretchen’s new book, participants in this extended general session will do a little painless writing; then ease in to reading (and understanding!) one of Shakespeare’s greatest soliloquies. Honestly! Genius is all around us.' },
             { id: 'break-2', block: 'Tuesday Breakfast', time: 'Tue 8:15 - 8:45 AM', title: 'Coffee & Breakfast Bars', presenterId: null, audience: 'All', room: 'FBC Worship Center', description: 'Enjoy coffee and breakfast bars in FBC Worship Center.' },
@@ -253,7 +260,7 @@
             { id: 's6-1', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'The Best Leaders Don’t Wait for Calm Seas', presenterId: 'mckinney', audience: 'L', room: 'Building A', description: 'In this engaging session inspired by The Instructional Leader in You, you’ll explore practical strategies that help you lead from where you are, no matter your current role. Learn how small, intentional actions can build your influence, strengthen relationships, and prepare you for the next step while making an impact right now. Whether you\'re stepping into leadership or already serving in it, you’ll leave with clear, effective moves to grow as the instructional leader your campus needs.' },
             { id: 's6-2', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Harvesting Shells with ELLS', presenterId: 'alambarrio', audience: '6-12', room: 'Building B', description: 'A current classroom teacher and biliteracy consultant shares proven classroom strategies that will empower language learners to harvest words and patterns within the English language as they become more engaged, confident writers and readers. Heather will also connect this work with the new ELPS so you can plan for strategic implementation. This session will be powerful and deep, just like the ocean!' },
             { id: 's6-3', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Specific Support for Students with Dyslexia', presenterId: 'speegle', additionalPresenters: ['kypke'], audience: '3-8', room: 'Building C', description: 'In this interactive session, participants will engage in simulation experiences designed to provide insight into what it feels like to navigate the classroom with dyslexia. The session will explore the comorbidity of ADHD and dyslexia, as well as the impact these challenges can have across all academic areas—not just reading and writing. Presenters will share practical strategies including flexible seating, movement integration, accommodations across content areas, and small-group testing supports that help students succeed.' },
-            { id: 's6-4', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Adding Depth: Kernal Essay Elaboration Strategies', presenterId: 'martindell', audience: '4-12', room: 'Building D', description: 'This session builds upon the kernel essay’s organization by: 1. using the depth charge elaboration strategy to build paragraphs where each sentence connects to the central idea of the sentence that comes before, and 2. using text evidence from a visual source to add depth to writing. To do this we will begin by writing a kernel essay using the Perspectives from a Painting text structure.' },
+            { id: 's6-4', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Adding Depth: Kernel Essay Elaboration Strategies', presenterId: 'martindell', audience: '4-12', room: 'Building D', description: 'This session builds upon the kernel essay’s organization by: 1. using the depth charge elaboration strategy to build paragraphs where each sentence connects to the central idea of the sentence that comes before, and 2. using text evidence from a visual source to add depth to writing. To do this we will begin by writing a kernel essay using the Perspectives from a Painting text structure.' },
             { id: 's6-5', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Reading Lenses 201: Focus on Poetry', presenterId: 'martin', audience: '3-12', room: 'Building E', description: 'Is authentic reading engagement truly possible, and can we help develop critical readers who will carry these skills throughout life? Absolutely! Using the "Reading Lenses” strategy with rich texts, teachers will learn how to boost their students’ reading interactions, immediately facilitate rigorous analysis, and empower students with confidence and skills. This session also tremendously helps teachers better understand the “thinking” within their TEKS.' },
             { id: 's7-1', block: 'Session Seven', time: 'Tue 1:45 - 3:00 PM', title: 'Closing General Session', presenterId: 'mayer', audience: 'All', room: 'Building E', description: 'Don’t miss Melanie’s closing keynote address. Several awesome door prizes, including Consuela bags, Yetis, hotel stays, and more - and a grand prize package valued over $1000 will be awarded during this final session! Receive PD certificates here, too.' }
         ];
@@ -327,7 +334,7 @@
                     let markerColor = loc.type === 'shop' ? 'blue' : 'orange';
 
                     const icon = window.L.icon({ 
-                        iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColor}.png`, 
+                        iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/31f7dfe9dfe6dc55ab0eb43b7360c9c8dbe4b18f/img/marker-icon-2x-${markerColor}.png`, 
                         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
                         iconSize: [25, 41], 
                         iconAnchor: [12, 41],
@@ -392,6 +399,10 @@
             useEffect(() => {
                 localStorage.setItem('beachConferenceSchedule', JSON.stringify(mySchedule));
             }, [mySchedule]);
+
+            useEffect(() => {
+                window.scrollTo(0, 0);
+            }, [activeTab]);
 
             const showNotification = (msg) => { setNotification(msg); setTimeout(() => setNotification(null), 3000); };
             const handleScheduleSelect = (blockName, sessionId) => { setMySchedule(prev => ({ ...prev, [blockName]: sessionId })); showNotification("Added to schedule!"); };
@@ -527,6 +538,12 @@
 
                         {activeTab === 'schedule' && (
                             <div className="animate-slide-up space-y-4 md:space-y-6">
+                                <div className="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs md:text-sm text-slate-600 flex flex-wrap items-center gap-x-4 gap-y-1.5">
+                                    <span className="font-bold text-slate-700">Audience key:</span>
+                                    <span><strong>L</strong> = Leadership</span>
+                                    <span>Numbers/letters (e.g. <strong>K-5</strong>, <strong>6-12</strong>) = grade bands</span>
+                                    <span><strong>All</strong> = everyone</span>
+                                </div>
                                 {timeBlocks.map(block => (
                                     <div key={block.id} className="bg-white rounded-2xl p-4 md:p-6 border border-slate-100 shadow-sm">
                                         <h3 className="font-bold text-sm md:text-lg text-teal-800 mb-3 md:mb-4">{block.name} ({block.time})</h3>
@@ -565,7 +582,7 @@
                             <div className="animate-slide-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
                                 {presentersData.map(p => (
                                     <div key={p.id} className="bg-white p-3.5 md:p-6 rounded-xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-shadow flex flex-col items-center" onClick={() => setSelectedPresenter(p)}>
-                                        <img src={p.image} className="w-16 h-16 md:w-24 md:h-24 rounded-full mb-2.5 object-cover border-2 md:border-4 border-slate-50"/>
+                                        <img src={p.image} alt={`Headshot of ${p.name}`} className="w-16 h-16 md:w-24 md:h-24 rounded-full mb-2.5 object-cover border-2 md:border-4 border-slate-50"/>
                                         <h3 className="font-bold text-center text-slate-800 text-xs md:text-base">{p.name}</h3>
                                         <p className="text-[11px] md:text-xs text-center text-slate-500 mt-0.5">{p.role}</p>
                                     </div>
@@ -577,7 +594,7 @@
                             <div className="animate-slide-up bg-white p-5 md:p-8 rounded-2xl shadow-sm border border-slate-100 relative">
                                 <button onClick={() => setSelectedPresenter(null)} className="text-teal-700 font-bold text-xs md:text-sm mb-4 inline-flex items-center hover:text-teal-900"><i className="fas fa-arrow-left mr-1.5"></i>Back to Presenters</button>
                                 <div className="flex flex-col items-center mt-2">
-                                    <img src={selectedPresenter.image} className="w-28 h-28 md:w-40 md:h-40 rounded-full mb-4 object-cover border-4 border-slate-50 shadow-md"/>
+                                    <img src={selectedPresenter.image} alt={`Headshot of ${selectedPresenter.name}`} className="w-28 h-28 md:w-40 md:h-40 rounded-full mb-4 object-cover border-4 border-slate-50 shadow-md"/>
                                     <h2 className="text-lg md:text-3xl font-bold text-slate-800 text-center">{selectedPresenter.name}</h2>
                                     <p className="text-teal-800 font-semibold mb-4 uppercase tracking-wide text-xs md:text-sm text-center">{selectedPresenter.role}</p>
                                     <p className="text-xs md:text-sm text-slate-600 leading-relaxed max-w-3xl text-center">{selectedPresenter.bio}</p>
