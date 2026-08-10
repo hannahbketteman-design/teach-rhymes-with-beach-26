@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teach Rhymes With Beach 2026</title>
+      
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+      
+    <!-- Babel for in-browser JSX compilation -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+      
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+      
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet Maps CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- HTML2PDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Google Font: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        html, body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f8fafc; 
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto !important;
+            min-height: 0 !important;
+            overflow: visible !important;
+            -webkit-font-smoothing: antialiased;
+        }
+        #root {
+            width: 100%;
+            height: auto !important;
+            min-height: 0 !important;
+            display: flex;
+            flex-direction: column;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .soft-shadow { box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08); }
+        
+        .mobile-bottom-pad {
+            padding-bottom: 60px;
+        }
+          
+        @media print {
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const presentersData = [
+            { 
+                id: 'mayer', 
+                name: 'Melanie Mayer', 
+                role: 'Conference Host & Presenter', 
+                bio: `Melanie taught high school and college English for over thirty years, twenty-seven of them at Port Aransas High School. She is the winner of several outstanding teacher awards and is the author of three books. She has presented humorous, practical, and inspiring convocation keynotes and teacher trainings for over 100 school districts, 14 Education Service Centers, and many education organizations across Texas. Her Facebook page for teachers, Melanie Mayer Inspire, continues to support, encourage, and inspire educators with practical tips for the classroom and for life. This is her 7th year to host this conference in Port Aransas.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/6ce3e9f6b06a7b54fdaca572e21d4738e3991ebf/mayer.jpg' 
+            },
+            { 
+                id: 'bernabei', 
+                name: 'Gretchen Bernabei', 
+                role: 'Featured Presenter', 
+                bio: `Gretchen taught middle and high school English for 34 years. She is the author of so many books for teachers, including Why We Must Run With Scissors, Grammar Keepers, Crunchtime, Text Structures from Poetry (and all the “Text Structures” books), The Story of My Thinking: Expository Writing Activities for 13 Teaching Situations, and more. A sought-after speaker, Gretchen is the founder of Trail of Breadcrumbs, an incredible resource for English teachers.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/307d8d3d0465b8ae88dbdf7f1aa6a6c9ad723d4b/bernabei.jpg' 
+            },
+            { 
+                id: 'siler', 
+                name: 'Dr. Jill Siler', 
+                role: 'Keynote Presenter', 
+                bio: `Dr. Jill Siler served as the Superintendent of Gunter ISD for nearly ten years and now serves as the Deputy Executive Director for Professional Learning for the Texas Association of School Administrators (TASA). Jill grew up in Rochester & Buffalo, NY and completed her undergraduate work at the University of Pittsburgh where she was a collegiate swimmer. She was a teacher and coach in Pflugerville ISD and began her administrative career in Marble Falls ISD. In 2004, Jill went to Lake Travis ISD where she served as a campus and district leader for 8 years. During that time, she completed her doctorate at the University of Texas. Jill has a passion for helping others reach their goals and is the leader of Texas’ Aspiring Superintendent Academy and Texas’ First Time Superintendents Academy. She speaks at leadership and teacher conferences across the country. Her first book, Thrive Through the Five was published in 2020 and talks about how to thrive in the most challenging times.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/051d86f9e0a591f88ba1aaa49aa9f27bc70260f3/Siler_Headshot.jpg' 
+            },
+            { 
+                id: 'alambarrio', 
+                name: 'Heather Alambarrio', 
+                role: 'Biliteracy Consultant', 
+                bio: `Heather Alambarrio has worked as a bilingual, dual language and English teacher and leader across grade levels and as an ELAR Curriculum Coordinator in Texas since 2008. She consults with districts to implement standards and materials while tying them to best instructional practices. A passionate thought partner and problem solver, Heather enjoys helping leaders advocate for authentic literacy and serves as Vice President of TCTELA and President of NTEL. She is especially passionate about differentiation for language learners and gifted students. Heather is married to Rafael and they enjoy karaoke and dancing. Her daughter Savannah Grace is a freshman Elementary Education major at Abilene Christian and enjoys reading across genres. Her son Santigo is in middle school, where he plays the upright bass, football, and reads plenty of fantasy books!`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/b7b867479a1e439a3672444a0170652731803993/IMG_7151.jpeg' 
+            },
+            { 
+                id: 'bassano', 
+                name: 'Meagan Bassano', 
+                role: 'RLA Specialist and G/T Lead', 
+                bio: `Meagan Bassano is an RLA Specialist and G/T Lead at Region 3 Education Service Center with 13+ years of experience in education. She specializes in secondary RLA, G/T training and implementation, STAAR prep, and building teacher capacity through coaching. Meagan is passionate about designing instruction that encourages students to be creative and think outside the box while achieving academic success.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/d0a8375878a6349c58a6c6407e2317f7a778d06b/bassano.jpg' 
+            },
+            { 
+                id: 'briseno', 
+                name: 'Kayla Briseno', 
+                role: 'Author & Educator', 
+                bio: `Kayla Briseno has taught English all over the world and to nearly every age. She has conducted professional development workshops with Gretchen Bernabei for over a decade. Text Structures From Picture Books was her debut book. The follow up, Text Structures from Nonfiction Picture Books, was released in May 2025. When she’s not teaching or helping teachers, Kayla enjoys collaborating with her husband, Stephen; creating art with her daughter, Zinnia; reading a good book; or enjoying a stroll along the San Antonio River Walk, where she lives with her family. Follow her on Instagram @brisenos_teach.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/8b0c172f5aa2c82b08b17fc6eeed048bdaa16d7d/briseno.jpg' 
+            },
+            { 
+                id: 'caudillo', 
+                name: 'Linda Caudillo', 
+                role: 'Region 19 Consultant', 
+                bio: `Linda Caudillo holds a Master’s degree in Rhetoric and Writing Studies from UTEP, and brings years of experience in literacy leadership in and out of the high school classroom. Since 2017, she has served as a Professional Development Consultant with Region 19, supporting initiatives such as Reading Academies (as a cohort leader), Strong Foundations (as a manager), and the Biliteracy Program (as a grant manager), while also coordinating IMRA efforts. Her classroom experience includes teaching secondary English, ESL, and AP courses in both Texas and Arizona. Beyond her professional work, she enjoys spending time with her husband and children, as well as caring for their small orchard, chickens, and one very special turtle, Cherry.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/8468125502c6c335ae6a3ff1845178b35c816ceb/image0.jpeg' 
+            },
+            { 
+                id: 'davis', 
+                name: 'Clay Davis', 
+                role: 'Associate Principal', 
+                bio: `Clay Davis serves as the Associate Principal of Operations at Splendora High School and brings more than 30 years of experience in public education as a teacher, coach, and administrator. Throughout his career, he has been passionate about developing strong campus culture, building meaningful relationships, and helping others understand the impact of leadership from every position within an organization. Clay has presented to campus staffs, athletic programs, district leadership teams, and back-to-school convocations, delivering messages centered on resilience, ownership, perspective, and purposeful leadership. He combines practical educational leadership experience with real-life lessons that encourage educators to lead with purpose, influence culture positively, and remain committed to making a difference in the lives of students and colleagues – even in life’s most difficult moments.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/cff5a5769a772c3fd7245a100e3d608d42c9b632/clay%20davis.jpg' 
+            },
+            { 
+                id: 'deanda', 
+                name: 'Claudia De Anda', 
+                role: 'Region 19 Consultant', 
+                bio: `Claudia De Anda has served in various roles in education for over 25 years, including Special Education teacher, Dyslexia Specialist, Middle School Language Arts Teacher, AVID Campus Coordinator, Instructional Coach, and Reading Specialist. She is currently an Education Consultant with Region 19, TEA’s regional dyslexia specialist, and an adjunct professor for Early Literacy Courses at New Mexico State University.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/80564609b197cf6191bfde14340c9d02a59ca5cb/IMG_7203.JPEG' 
+            },
+            { 
+                id: 'garrett', 
+                name: 'James Garrett', 
+                role: 'Principal, Brundrett Middle School', 
+                bio: `James Garrett serves as the Principal of Brundrett Middle School in the Port Aransas Independent School District. He brings valuable campus-level leadership experience to the conference.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/cdaa9954a3f616331c3682748b58109074656b22/james%20garrett.jpg' 
+            },
+            { 
+                id: 'holland', 
+                name: 'Shelley Holland', 
+                role: 'Secondary Curriculum Coordinator', 
+                bio: `Shelley Holland brings 27 years of experience in public education, serving students from grades 1–12 as well as teaching adult literacy and writing classes. A graduate of the University of Texas at Austin, she began her career in Buda, Texas, and has since taught in Southern California and abroad as a Fulbright Exchange Teacher participant in Scotland. Her roles have included teacher, interventionist, both middle and high school CIS, ESL specialist, and dyslexia interventionist. Shelley Holland currently serves as Secondary Curriculum Coordinator for Sheldon ISD. Her passion for literacy at all levels continues to motivate her work in education.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/b4cf229d607612368c6f2429a7bf4ebbce0951cb/HollandShelley.jpg' 
+            },
+            { 
+                id: 'ketteman', 
+                name: 'Hannah Ketteman', 
+                role: 'Senior Instructional Consultant for AI', 
+                bio: `Hannah Ketteman is a former English teacher, who currently serves as the Senior Instructional Consultant for Artificial Intelligence for Texas A&M Central Texas. She is passionate about bringing teachers realistic innovation that actually makes a difference in the classroom. She believes that technology accentuates pedagogy, not the other way around. In her free time, she reads and hangs out with her two children.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/39bd890d5b215db4d891b72cd211c276db86be17/Ketteman%20Headshot%20(1).png' 
+            },
+            { 
+                id: 'kypke', 
+                name: 'Kacie Kypke', 
+                role: 'Special Education Teacher', 
+                bio: `Kacie Kypke, Special Education Teacher at HG Olsen Elementary, serves as a Dyslexia Interventionist and Tier 3 Reading Interventionist with 30+ years of combined experience working with struggling readers. Passionate about helping every child succeed, she believes in meeting students where they are through engaging, multisensory instruction that makes learning fun and meaningful. Her classrooms emphasize movement, flexible seating, and hands-on strategies designed to build confidence and support student growth in reading and literacy.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/c217e649a4d9aa279d5b44a481c2a01c36f1e571/Kypke%2C%20Kacie.jpg' 
+            },
+            { 
+                id: 'martin', 
+                name: 'Jenny Martin', 
+                role: 'Reading Lenses Specialist', 
+                bio: `Jennifer Martin specializes in guiding readers to not only access rigorous texts, but to boost critical thinking skills. Her “Reading Lenses” methods have been helping teachers and students across Texas find deeper meaning and growth in their reading and writing abilities for years. Along with teaching grades 6-12 ELAR over a 30-year career, she has also been a mentor teacher, instructional coach, and curriculum instructional strategist.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/8ca8b38d70b1e991e2e6329786453fb206ba94c2/IMG_1461.jpg' 
+            },
+            { 
+                id: 'martindell', 
+                name: 'Dr. Tim Martindell', 
+                role: 'Educator', 
+                bio: `Dr. Tim Martindell is a retired educator with 42 years of experience as a grade five through twelve classroom teacher, university instructor, and school district curriculum coordinator in Houston, Texas. Currently enjoying a “second teacher life,” he teaches 5th and 6th graders at The Village School, an international pre-K - 12 private school on Houston’s west side. Tim has served as president of both the Texas Council of Teachers of English Language Arts and the West Houston Area Council of Teachers of English.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/1d2ce713a9240fbf6b0684953de21cc526fc179d/martindell.jpg' 
+            },
+            { 
+                id: 'mckinney', 
+                name: 'Dr. Sharon McKinney', 
+                role: 'PAISD Superintendent', 
+                bio: `Dr. Sharon McKinney has served as the Superintendent of Port Aransas Independent School District for the past ten years. With more than 20 years in public education, she is known for her student-centered approach and commitment to innovation. Sharon began her career as a special education teacher and later taught high school social studies before moving into campus and district leadership. Sharon serves as Co-Chair of the TASA Small Schools Network and is a member of the TASA Executive Committee. She earned her bachelor’s degree from Texas A&M University, her master’s degree from Texas A&M University–Corpus Christi, and her doctorate from West Texas A&M University. She is passionate about building strong school cultures, supporting educators, and creating meaningful learning experiences for all students.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/f289e4948452441be516c62ba8d4c579c5d75147/sharonmckinney.png' 
+            },
+            { 
+                id: 'robbins', 
+                name: 'Dr. Jessica Robbins', 
+                role: 'Executive Director of Teaching and Learning', 
+                bio: `Dr. Jessica Robbins is in her 24th year of education in Rockport-Fulton ISD. After ten years as a high school English teacher and subject area coordinator, her focus shifted to district leadership, where she has served in a variety of capacities, including assessment, special populations, and curriculum & instruction. Currently serving as Executive Director of Teaching and Learning, Jessica is focused on building strong systems of support in a district serving students with diverse needs.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/ff8b92b3a04a988a8879fff216324cced75b8700/jessicarobbins.png' 
+            },
+            { 
+                id: 'rose', 
+                name: 'Dr. Shona Rose', 
+                role: 'The Book Sasquatch', 
+                bio: `Dr. Shona Rose started teaching reading in the fifth grade using small cards that her mom had handwritten for her. When she took Children's Literature in College, she remembered getting lovely books from Parent's Magazine Press, and happy moments spent becoming characters through her mother's voice. After 34 years of various educational experiences, she became the Book Sasquatch for The Leaders Readers Network, distributing books and providing professional learning to promote the love of literacy and learning. Believe - free book access and support are real.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/f8d267cde895690f40920b288d1e6e4d067b1abd/DSC_3553.jpg' 
+            },
+            { 
+                id: 'saverance', 
+                name: 'Shanna Saverance', 
+                role: 'Secondary RLA Education Specialist', 
+                bio: `Shanna Saverance’s life maxim has always been “Do what you love, and love what you do.” Drawing on 26 years of teaching secondary English, Shanna serves as a Secondary RLA Education Specialist at Region 15, empowering teachers to transform lives through creative and engaging literacy instruction. Shanna has been a group leader for an international travel company for over 12 years, and her insatiable wanderlust has taken her to 20 countries. When her nose isn’t in a book, you can be certain she is planning her next grand adventure.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/b6c1e2e7b44632ddab5408c9fa7addc4fbaf707c/shanna.jpg' 
+            },
+            { 
+                id: 'speegle', 
+                name: 'Gaylynn Speegle', 
+                role: 'Dyslexia Specialist', 
+                bio: `Gaylynn Speegle, District Dyslexia Specialist for PAISD, serves as a Dyslexia Interventionist and Tier 3 Reading Interventionist with 30+ years of combined experience working with struggling readers. Passionate about helping every child succeed, she believes in meeting students where they are through engaging, multisensory instruction that makes learning fun and meaningful. Her classrooms emphasize movement, flexible seating, and hands-on strategies designed to build confidence and support student growth in reading and literacy.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/c217e649a4d9aa279d5b44a481c2a01c36f1e571/Speegle%2C%20Gaylann.jpg' 
+            },
+            { 
+                id: 'spellane', 
+                name: 'Cori Spellane', 
+                role: 'English Teacher', 
+                bio: `Mrs. Cori Spellane is in her 24th year of inspiring students. Her experience includes teaching grades 4–12, in various English, Special Education, Emergent Bilingual, and Gifted & Talented programs. Currently she teaches English I in Los Fresnos. She’s also a wife, mom of three semi-adult kids, avid reader, pet lover, and proud beekeeper buzzing through life one chapter at a time.`, 
+                image: 'https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/49f119b6d01859f8f65683a80c521e3664acc9eb/TOY%20Close%20Up%20Pic.jpg' 
+            }
+        ];
+
+        const sessionsData = [
+            { id: 's0-1', block: 'Monday Check-in', time: 'Mon 8:15 - 8:40 AM', title: 'Check-in & Breakfast', presenterId: null, audience: 'All', room: 'FBC Worship Center', description: 'Check-in continues in the FBC Worship Center (100 Station Street); coffee, water, and breakfast bars provided. (Doors open at 8:00.)' },
+            { id: 's0-2', block: 'Opening General Session', time: 'Mon 8:45 - 10:15 AM', title: 'Opening General Session & Keynote', presenterId: 'siler', additionalPresenters: ['mckinney', 'mayer'], audience: 'All', room: 'FBC Worship Center', description: 'Welcome by PAISD Superintendent, Dr. Sharon McKinney.\nInformation and introductions: Melanie Mayer.\nKeynote presentation: Dr. Jill Siler.\n(Golf cart and meal gift certificate winners will be drawn!)' },
+            { id: 's1-1', block: 'Session One', time: 'Mon 10:30 - 11:30 AM', title: 'Intentional Design: Crafting Professional Learning that Engages, Connects, and Inspires', presenterId: 'siler', audience: 'L', room: 'Building A', description: 'Professional learning doesn’t happen by accident — it happens by design. In this engaging session, we’ll explore how to be purposeful and strategic in crafting professional development that truly resonates. From authentic invitations and thoughtful entry points that invite authentic engagement and spark curiosity, to collaborative structures that foster connection and maximize the wisdom in the room, we’ll unpack how intentional design leads to deeper engagement and meaningful learning. We’ll also explore the power of surprise and delight — those creative, joyful elements that elevate a learning experience from ordinary to transformational. Participants will leave with practical strategies and fresh ideas to design professional learning that connects, inspires, and makes a lasting impact.' },
+            { id: 's1-2', block: 'Session One', time: 'Mon 10:30 - 11:30 AM', title: 'Harvesting Shells with ELLS', presenterId: 'alambarrio', audience: 'PK-5', room: 'Building B', description: 'A current classroom teacher and biliteracy consultant shares proven classroom strategies that will empower language learners to harvest words and patterns within the English language as they become more engaged, confident writers and readers. Heather will also connect this work with the new ELPS so you can plan for strategic implementation. This session will be powerful and deep, just like the ocean!' },
+            { id: 's1-3', block: 'Session One', time: 'Mon 10:30 - 11:30 AM', title: 'The Wr "AI" te Stuff: Using AI to Speed Up Prep and Protect Your Pedagogy', presenterId: 'ketteman', audience: '6-12', room: 'Building C', description: 'High-quality writing feedback is vital to student growth, but can be a massive time bandit. In this fast-paced session, we will break down two concrete workflows: one teacher-facing strategy to rapidly generate rubric-aligned formative feedback, and one student-facing strategy to break through the blank-page drafting barrier. Walk away with ready-to-use tools that delegate the prep to AI, leaving you with more energy for what matters most: meaningful, one-on-one student conferencing.' },
+            { id: 's1-4', block: 'Session One', time: 'Mon 10:30 - 11:30 AM', title: 'Beyond the Worksheet: Low-Tech Gamification That Drives Engagement', presenterId: 'spellane', audience: '4-12', room: 'Building D', description: 'This session highlights practical, low-tech gamification strategies that replace traditional worksheets with interactive, student-centered learning experiences. Participants will explore adaptable games that promote collaboration, critical thinking, and academic rigor without relying on technology. The focus is on easy-to-implement structures that increase engagement, support diverse learners, and make learning both meaningful and enjoyable across content areas.' },
+            { id: 's1-5', block: 'Session One', time: 'Mon 10:30 - 11:30 AM', title: 'For the Love of Reading', presenterId: 'rose', audience: 'K-5', room: 'Building E', description: 'What are you reading? I asked my grandson. "Nothing." You sure? "Prolly some passages. But nope." He might as well have stabbed me. In this session, learn how we captivate imaginations and possibilities regarding what reading could be: loved and enjoyed. We\'ll start with book talks, strategies, and then dip in and out of resources so that your kids will say they are reading all kinds of stuff.' },
+            { id: 'lunch-1', block: 'Monday Lunch', time: 'Mon 11:30 AM - 1:00 PM', title: 'Lunch on Your Own', presenterId: null, audience: 'All', room: 'Port Aransas Restaurants', description: 'Enjoy book signings and time with presenters, and lunch on your own at one of Port A’s many fabulous restaurants! Or shop. Or go to the beach.' },
+            { id: 's2-1', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Leadership Panel', presenterId: 'mckinney', additionalPresenters: ['garrett', 'robbins', 'davis', 'mayer'], audience: 'L', room: 'Building A', description: 'Behind the Scenes: The Work of Authentic Instructional Leadership. Ever wonder what leadership really looks like behind the scenes, beyond the title and the to-do list? In this candid panel, campus administrators and instructional leaders share real-world insights on building trust, staying focused on instruction, and navigating daily challenges. Designed for both aspiring and current leaders, this session offers an honest look at the work and impact of instructional leadership, along with practical takeaways you can use right away.' },
+            { id: 's2-2', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Transferencia Académica: El Poder de los Cognados', presenterId: 'caudillo', additionalPresenters: ['deanda'], audience: '4-12', room: 'Building B', description: 'Did you understand the title? Did you use your cognates? In this engaging session, educators will explore how to strategically leverage cognates to accelerate English language development for Emergent Bilingual (EB) students who speak Spanish. Participants will examine the morphological connections between English and Spanish, including common patterns such as English nouns ending in -tion corresponding to Spanish -ción (e.g., information/información, education/educación). By understanding these linguistic bridges, teachers can unlock powerful opportunities for students to make connections across languages, expand vocabulary, and deepen comprehension. Attendees will leave with practical strategies to intentionally integrate cognate instruction into their classrooms, empowering students to better understand how English and Spanish “work” together.' },
+            { id: 's2-3', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Making Waves for the Gifted Learner', presenterId: 'bassano', audience: '3-12', room: 'Building C', description: 'Ready to move beyond "more work" and into meaningful challenge? Dive into the world of gifted and twice-exceptional (2E) learners and explore how tiered instruction can transform your classroom. In this session, we’ll unpack key characteristics of G/T students, address the unique needs of 2E learners, and design layered learning experiences that promote depth, complexity, and engagement. Walk away with ready-to-use strategies that help every learner stay afloat—and thrive!' },
+            { id: 's2-4', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Picture Books for STAAR? Are you Kidding?', presenterId: 'briseno', audience: '2-10', room: 'Building D', description: 'Nope! We’re not kidding. Using picture books, these tried-and-true strategies will relax kids into solid academic work, no matter their age or ability. You will leave this session with strategies you can use tomorrow to get students writing high scoring responses to reading, especially those required for the SCRs and the ECRs on STAAR, and weaving reading and writing together. Plus, you’ll get loads of resources for teaching writer’s craft, grammar, and truisms.' },
+            { id: 's2-5', block: 'Session Two', time: 'Mon 1:00 - 2:00 PM', title: 'Reading Lenses: Transferring Analysis to the ECR', presenterId: 'martin', audience: '3-12', room: 'Building E', description: 'This session uses the Reading Lenses strategy to give students "the academic gift that keeps on giving." In other words, students will discover how to analyze a selection for its potential to produce an extended constructed response prompt and to determine possible answers with text evidence. Join us as we practice this academically empowering skill!' },
+            { id: 's3-1', block: 'Session Three', time: 'Mon 2:15 - 3:45 PM', title: 'Cultivating a Little Genius While Making Shakespeare Painless', presenterId: 'bernabei', audience: 'All', room: 'Building E', description: 'Modeling a lesson from Gretchen’s new book, participants in this extended general session will do a little painless writing; then ease in to reading (and understanding!) one of Shakespeare’s greatest soliloquies. Honestly! Genius is all around us.' },
+            { id: 'break-2', block: 'Tuesday Breakfast', time: 'Tue 8:15 - 8:45 AM', title: 'Coffee & Breakfast Bars', presenterId: null, audience: 'All', room: 'FBC Worship Center', description: 'Enjoy coffee and breakfast bars in FBC Worship Center.' },
+            { id: 's4-1', block: 'Session Four', time: 'Tue 8:45 - 9:45 AM', title: 'Whatever It Takes: Life. Lessons. Leadership.', presenterId: 'davis', audience: 'L', room: 'Building A', description: 'Adversity does not simply test leadership—it reveals it. In this inspiring session, centered on the idea of leading through difficult seasons, Clay introduces a practical three-step approach to understanding and strengthening your personal leadership style when challenges arise. Attendees will reflect on how adversity impacts decision-making, relationships, culture, and personal growth; and leave with a renewed sense of purpose, a deeper understanding of leadership under pressure, and actionable strategies for leading with greater resilience, ownership, and impact in both their professional and personal lives.' },
+            { id: 's4-2', block: 'Session Four', time: 'Tue 8:45 - 9:45 AM', title: 'Transferencia Académica: El Poder de los Cognados', presenterId: 'caudillo', additionalPresenters: ['deanda'], audience: '4-12', room: 'Building B', description: 'Did you understand the title? Did you use your cognates? In this engaging session, educators will explore how to strategically leverage cognates to accelerate English language development for Emergent Bilingual (EB) students who speak Spanish. Participants will examine the morphological connections between English and Spanish, including common patterns such as English nouns ending in -tion corresponding to Spanish -ción (e.g., information/información, education/educación). By understanding these linguistic bridges, teachers can unlock powerful opportunities for students to make connections across languages, expand vocabulary, and deepen comprehension. Attendees will leave with practical strategies to intentionally integrate cognate instruction into their classrooms, empowering students to better understand how English and Spanish “work” together.' },
+            { id: 's4-3', block: 'Session Four', time: 'Tue 8:45 - 9:45 AM', title: 'AI for Instructional Redesign', presenterId: 'ketteman', audience: 'K-12', room: 'Building C', description: 'We’re upgrading how we analyze, evaluate, and create in the classroom. Participants will explore how AI practices (not just tools) can deepen, rather than replace, higher-order thinking—ensuring students are active thinkers, not just passive responders in a world of generative technology. The learning landscape may be evolving, but good teaching stands the test of time.' },
+            { id: 's4-4', block: 'Session Four', time: 'Tue 8:45 - 9:45 AM', title: 'QA12345: A sure-fire method for students who struggle', presenterId: 'bernabei', audience: '3-10', room: 'Building D', description: 'This session will give a leg-up to students who just don’t get it, capitalizing on the knowledge they have known since they began to talk. It works for more than STAAR, too.' },
+            { id: 's4-5', block: 'Session Four', time: 'Tue 8:45 - 9:45 AM', title: 'If You Build It, They Will Learn: Climbing the Ladder to College Readiness', presenterId: 'mayer', audience: '6-12', room: 'Building E', description: 'This session focuses on scaffolding assignments using students’ own interests with the skills they need to be successful in college. Includes active reading and responding to text; expository writing, research and documentation skills; and academic behaviors.' },
+            { id: 's5-1', block: 'Session Five', time: 'Tue 10:00 - 11:00 AM', title: 'Keep the Candle Burning: How to Build, Practice, and Teach Resilience', presenterId: 'mayer', audience: '3-12', room: 'Building A', description: `“My candle burns at both ends; It will not last the night; But ah, my foes, and oh, my friends - it gives a lovely light!” – Edna St. Vincent Millay\n\nPeople are like candles. We are here such a short time. But some “candles” seem to burn brighter, last longer. Like a trick birthday candle, they can’t be put out. The difference is resilience. In this powerful presentation, Melanie suggests practical strategies for building and maintaining resilience, growth, and impact - because real resilience isn’t just surviving; it’s thriving. And it’s helping others thrive as well – at work, at home, and at play.` },
+            { id: 's5-2', block: 'Session Five', time: 'Tue 10:00 - 11:00 AM', title: 'Every Learner Counts: Practical Supports', presenterId: 'spellane', audience: '4-12', room: 'Building B', description: 'This session focuses on practical, classroom-ready strategies to support emergent bilingual, special education, and 504 students through intentional instructional design. Participants will explore ways to reduce barriers, scaffold learning, and increase access to grade-level content while maintaining high expectations. Emphasis is placed on inclusive practices that benefit all learners and can be implemented immediately across content areas.' },
+            { id: 's5-3', block: 'Session Five', time: 'Tue 10:00 - 11:00 AM', title: 'Write. Read. Discuss. Repeat.', presenterId: 'saverance', audience: '6-12', room: 'Building C', description: 'This student-centered approach to instruction transforms how middle and high school students engage with complex texts. Through a simple, repeatable cycle of purposeful writing, active reading, and meaningful discussion, students move from passive participation to deep thinking. Strongly aligned with the student-led learning component of T-TESS, this strategy builds confidence, strengthens comprehension, and elevates student voice—providing scaffolding for struggling readers, meaningful challenge for on-level students, and enrichment for advanced learners. Walk away with a practical, ready-to-use routine you can implement immediately to boost engagement and get students doing the thinking.' },
+            { id: 's5-4', block: 'Session Five', time: 'Tue 10:00 - 11:00 AM', title: 'Picture Books for STAAR? Are You Kidding?', presenterId: 'briseno', audience: '2-10', room: 'Building D', description: 'Nope! We’re not kidding. Using picture books, these tried-and-true strategies will relax kids into solid academic work, no matter their age or ability. You will leave this session with strategies you can use tomorrow to get students writing high scoring responses to reading, especially those required for the SCRs and the ECRs on STAAR, and weaving reading and writing together. Plus, you’ll get loads of resources for teaching writer’s craft, grammar, and truisms.' },
+            { id: 's5-5', block: 'Session Five', time: 'Tue 10:00 - 11:00 AM', title: 'The Critical Reading Process', presenterId: 'holland', audience: '6-12', room: 'Building E', description: 'Learn how to implement the Critical Reading Process through its three purposeful phases—activate, engage, and extend—to strengthen student comprehension, deepen critical thinking, and build independent, strategic readers. Explore classroom-ready strategies for building background knowledge and vocabulary, while guiding students through a purposeful 1st Read and skillful 2nd (close) read, as well as designing meaningful written responses aligned to key skills. Attendees walk away with ready-to-use tools and instructional moves that can be immediately applied across content areas to increase student engagement and achievement.' },
+            { id: 'lunch-2', block: 'Tuesday Lunch', time: 'Tue 11:00 AM - 12:30 PM', title: 'Lunch on Your Own', presenterId: null, audience: 'All', room: 'Port Aransas Restaurants', description: 'Enjoy time with presenters, book signings, and lunch on your own at another of Port A’s fabulous restaurants! Or shop. Or go to the beach.' },
+            { id: 's6-1', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'The Best Leaders Don’t Wait for Calm Seas', presenterId: 'mckinney', audience: 'L', room: 'Building A', description: 'In this engaging session inspired by The Instructional Leader in You, you’ll explore practical strategies that help you lead from where you are, no matter your current role. Learn how small, intentional actions can build your influence, strengthen relationships, and prepare you for the next step while making an impact right now. Whether you\'re stepping into leadership or already serving in it, you’ll leave with clear, effective moves to grow as the instructional leader your campus needs.' },
+            { id: 's6-2', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Harvesting Shells with ELLS', presenterId: 'alambarrio', audience: '6-12', room: 'Building B', description: 'A current classroom teacher and biliteracy consultant shares proven classroom strategies that will empower language learners to harvest words and patterns within the English language as they become more engaged, confident writers and readers. Heather will also connect this work with the new ELPS so you can plan for strategic implementation. This session will be powerful and deep, just like the ocean!' },
+            { id: 's6-3', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Specific Support for Students with Dyslexia', presenterId: 'speegle', additionalPresenters: ['kypke'], audience: '3-8', room: 'Building C', description: 'In this interactive session, participants will engage in simulation experiences designed to provide insight into what it feels like to navigate the classroom with dyslexia. The session will explore the comorbidity of ADHD and dyslexia, as well as the impact these challenges can have across all academic areas—not just reading and writing. Presenters will share practical strategies including flexible seating, movement integration, accommodations across content areas, and small-group testing supports that help students succeed.' },
+            { id: 's6-4', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Adding Depth: Kernal Essay Elaboration Strategies', presenterId: 'martindell', audience: '4-12', room: 'Building D', description: 'This session builds upon the kernel essay’s organization by: 1. using the depth charge elaboration strategy to build paragraphs where each sentence connects to the central idea of the sentence that comes before, and 2. using text evidence from a visual source to add depth to writing. To do this we will begin by writing a kernel essay using the Perspectives from a Painting text structure.' },
+            { id: 's6-5', block: 'Session Six', time: 'Tue 12:30 - 1:30 PM', title: 'Reading Lenses 201: Focus on Poetry', presenterId: 'martin', audience: '3-12', room: 'Building E', description: 'Is authentic reading engagement truly possible, and can we help develop critical readers who will carry these skills throughout life? Absolutely! Using the "Reading Lenses” strategy with rich texts, teachers will learn how to boost their students’ reading interactions, immediately facilitate rigorous analysis, and empower students with confidence and skills. This session also tremendously helps teachers better understand the “thinking” within their TEKS.' },
+            { id: 's7-1', block: 'Session Seven', time: 'Tue 1:45 - 3:00 PM', title: 'Closing General Session', presenterId: 'mayer', audience: 'All', room: 'Building E', description: 'Don’t miss Melanie’s closing keynote address. Several awesome door prizes, including Consuela bags, Yetis, hotel stays, and more - and a grand prize package valued over $1000 will be awarded during this final session! Receive PD certificates here, too.' }
+        ];
+
+        const timeBlocks = [
+            { id: 'b0-1', name: 'Monday Check-in', time: 'Mon 8:15 - 8:40 AM' },
+            { id: 'b0-2', name: 'Opening General Session', time: 'Mon 8:45 - 10:15 AM' },
+            { id: 'b1', name: 'Session One', time: 'Mon 10:30 - 11:30 AM' },
+            { id: 'b-lunch-1', name: 'Monday Lunch', time: 'Mon 11:30 AM - 1:00 PM' },
+            { id: 'b2', name: 'Session Two', time: 'Mon 1:00 - 2:00 PM' },
+            { id: 'b3', name: 'Session Three', time: 'Mon 2:15 - 3:45 PM' },
+            { id: 'b-break-2', name: 'Tuesday Breakfast', time: 'Tue 8:15 - 8:45 AM' },
+            { id: 'b4', name: 'Session Four', time: 'Tue 8:45 - 9:45 AM' },
+            { id: 'b5', name: 'Session Five', time: 'Tue 10:00 - 11:00 AM' },
+            { id: 'b-lunch-2', name: 'Tuesday Lunch', time: 'Tue 11:00 AM - 12:30 PM' },
+            { id: 'b6', name: 'Session Six', time: 'Tue 12:30 - 1:30 PM' },
+            { id: 'b7', name: 'Session Seven', time: 'Tue 1:45 - 3:00 PM' }
+        ];
+
+        const localRecommendations = {
+            restaurants: [
+                { name: "Fins Grill and Icehouse", desc: "Waterfront dining famous for seafood, burgers, and their 'you hook 'em, we cook 'em' service.", icon: "fa-fish", tag: "Lunch & Dinner", url: "https://finsgrillandicehouse.com/", lat: 27.8402, lng: -97.0636 },
+                { name: "Lelo's Island Bar", desc: "A laid-back tiki bar with a vibrant patio. Known for exceptional burgers, specialty cocktails, and island vibes.", icon: "fa-martini-glass-citrus", tag: "Burgers & Drinks", url: "https://www.lelosbar.com/", lat: 27.8310, lng: -97.0645 },
+                { name: "MacDaddy's Family Kitchen", desc: "The go-to spot for mouthwatering southern comfort food, serving up Port A's best BBQ and fried chicken.", icon: "fa-drumstick-bite", tag: "BBQ & Southern", url: "https://macdaddysfamilykitchen.com/", lat: 27.8255, lng: -97.0712 },
+                { name: "Port A Pizzeria", desc: "A classic local joint serving up delicious pizza, calzones, pasta, and salads.", icon: "fa-pizza-slice", tag: "Pizza & Italian", url: "https://www.portapizzeria.com/", lat: 27.8287, lng: -97.0691 },
+                { name: "The Beer Hut", desc: "A fantastic open-air bar right off the highway. Grab a cold drink, sit on the swinging bar stools, and enjoy the sea breeze.", icon: "fa-beer-mug-empty", tag: "Drinks & Fun", url: "https://www.instagram.com/portabeerhut/", lat: 27.8256, lng: -97.0708 },
+                { name: "Coffee Waves", desc: "Your go-to for craft coffee, espresso, and artisan gelato to cool down between sessions.", icon: "fa-mug-hot", tag: "Coffee / Treats", url: "https://www.coffeewaves.com/", lat: 27.8217, lng: -97.0735 }
+            ],
+            shops: [
+                { name: "Coastal Closet", desc: "A beautifully curated coastal-themed boutique offering luxury brands, clothing for the whole family, and classy housewares.", icon: "fa-shirt", url: "http://www.coastalclosetportaransas.com/", lat: 27.8188, lng: -97.0754 },
+                { name: "Gratitudes", desc: "A charming local gift shop and boutique filled with unique finds, home decor, and souvenirs.", icon: "fa-gift", url: "https://www.instagram.com/gratitudeporta/", lat: 27.8333, lng: -97.0611 }
+            ]
+        };
+
+        const campusLocations = [
+            { name: "FBC Worship Center (Main HQ)", lat: 27.8336, lng: -97.0601, desc: "100 Station Street" },
+            { name: "PAISD Building", lat: 27.8327, lng: -97.0601, desc: "100 S Station St" },
+            { name: "Building A", lat: 27.8328, lng: -97.0603, desc: "PAISD Admin Board Room, directly across from the FBC" },
+            { name: "Building B", lat: 27.8326, lng: -97.0603, desc: "FBC Youth Building directly to the right of the Worship Center if facing it" },
+            { name: "Building C", lat: 27.8324, lng: -97.0602, desc: "Catholic Church, right across the side street from FBC" },
+            { name: "Building D", lat: 27.8325, lng: -97.0600, desc: "Right behind the Worship Center in Fellowship Hall" },
+            { name: "Building E", lat: 27.8328, lng: -97.0598, desc: "FBC Worship Center" },
+            { name: "The Crazy Cajun", lat: 27.8322, lng: -97.0602, desc: "303 E Beach Street" },
+            { name: "Hotel Lydia", lat: 27.8385, lng: -97.0620, desc: "445 W Cotter Avenue" }
+        ];
+
+        const MapComponent = ({ points, centerLat, centerLng, zoomLevel }) => {
+            const mapRef = useRef(null);
+            const mapInstance = useRef(null);
+
+            useEffect(() => {
+                if (!window.L || !mapRef.current) return;
+                  
+                if (!mapInstance.current) {
+                    mapInstance.current = window.L.map(mapRef.current, {
+                        scrollWheelZoom: false,
+                        tap: false
+                    }).setView([centerLat, centerLng], zoomLevel);
+                    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(mapInstance.current);
+                } else {
+                    mapInstance.current.setView([centerLat, centerLng], zoomLevel);
+                }
+
+                mapInstance.current.eachLayer((layer) => {
+                    if (layer instanceof window.L.Marker) {
+                        mapInstance.current.removeLayer(layer);
+                    }
+                });
+
+                points.forEach(loc => {
+                    let markerColor = loc.type === 'shop' ? 'blue' : 'orange';
+
+                    const icon = window.L.icon({ 
+                        iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColor}.png`, 
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41], 
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+                  
+                    const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.name + " Port Aransas, TX")}`;
+                    const popupContent = `
+                        <div style="text-align: center; min-width: 150px; font-family: sans-serif;">
+                            <strong>${loc.name}</strong><br/>
+                            <span style="font-size: 0.85em; color: #475569;">${loc.desc || ''}</span>
+                            <div style="margin-top: 10px;">
+                                <a href="${gmapsUrl}" target="_blank" style="background-color: #0f766e; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold; display: inline-block;">
+                                    <i class="fas fa-external-link-alt" style="margin-right: 4px;"></i> Open in Maps
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    window.L.marker([loc.lat, loc.lng], {icon}).addTo(mapInstance.current).bindPopup(popupContent);
+                });
+
+                setTimeout(() => {
+                    if (mapInstance.current) {
+                        mapInstance.current.invalidateSize();
+                    }
+                }, 200);
+
+            }, [points, centerLat, centerLng, zoomLevel]);
+
+            useEffect(() => {
+                return () => {
+                    if (mapInstance.current) {
+                        mapInstance.current.remove();
+                        mapInstance.current = null;
+                    }
+                };
+            }, []);
+
+            return <div ref={mapRef} className="w-full h-[320px] md:h-[420px] rounded-xl border border-slate-200 shadow-inner"></div>;
+        };
+
+        function App() {
+            const [activeTab, setActiveTab] = useState('home');
+            const [selectedPresenter, setSelectedPresenter] = useState(null);
+            const [mySchedule, setMySchedule] = useState({});
+            const [expandedSessionId, setExpandedSessionId] = useState(null);
+            const [expandedPresenterSessionId, setExpandedPresenterSessionId] = useState(null);
+            const [notification, setNotification] = useState(null);
+
+            useEffect(() => {
+                const saved = localStorage.getItem('beachConferenceSchedule');
+                if (saved) {
+                    try {
+                        setMySchedule(JSON.parse(saved));
+                    } catch (e) {
+                        console.error('Error loading schedule', e);
+                    }
+                }
+            }, []);
+
+            useEffect(() => {
+                localStorage.setItem('beachConferenceSchedule', JSON.stringify(mySchedule));
+            }, [mySchedule]);
+
+            const showNotification = (msg) => { setNotification(msg); setTimeout(() => setNotification(null), 3000); };
+            const handleScheduleSelect = (blockName, sessionId) => { setMySchedule(prev => ({ ...prev, [blockName]: sessionId })); showNotification("Added to schedule!"); };
+            const clearSchedule = () => setMySchedule({});
+              
+            const printSchedule = () => {
+                const element = document.getElementById('schedule-print-area');
+                if (!element) return;
+                const opt = {
+                    margin:       0.5,
+                    filename:     'My_Conference_Schedule.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, useCORS: true },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                if (window.html2pdf) {
+                    window.html2pdf().set(opt).from(element).save();
+                } else {
+                    window.print();
+                }
+            };
+
+            const getPresenterName = (id) => {
+                const p = presentersData.find(p => p.id === id);
+                return p ? p.name : '';
+            };
+
+            const getSessionPresenters = (session) => {
+                if (!session) return '';
+                const names = [];
+                if (session.presenterId) names.push(getPresenterName(session.presenterId));
+                if (session.additionalPresenters && session.additionalPresenters.length > 0) {
+                    session.additionalPresenters.forEach(id => {
+                        names.push(getPresenterName(id));
+                    });
+                }
+                return names.join(' & ');
+            };
+
+            const navTabs = [
+                {id: 'home', label: 'Home', icon: 'fa-house-chimney'}, 
+                {id: 'schedule', label: 'Agenda', icon: 'fa-calendar-days'}, 
+                {id: 'presenters', label: 'Presenters', icon: 'fa-users'}, 
+                {id: 'locations', label: 'Locations', icon: 'fa-map-location-dot'}, 
+                {id: 'explore', label: 'Explore', icon: 'fa-compass'}, 
+                {id: 'my-schedule', label: 'Schedule', icon: 'fa-bookmark'}
+            ];
+
+            return (
+                <div className="bg-slate-50 flex flex-col w-full">
+                    {notification && <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[60] bg-teal-800 text-white px-6 py-3 rounded-full font-bold shadow-lg animate-slide-up text-center max-w-[90vw] text-xs sm:text-sm">{notification}</div>}
+                      
+                    <header className="w-full bg-white/95 backdrop-blur-md border-b border-slate-200 soft-shadow">
+                        <div className="max-w-6xl mx-auto px-2 sm:px-4 py-3 flex flex-wrap justify-center gap-1.5 sm:gap-2">
+                            {navTabs.map(tab => (
+                                <button key={tab.id} onClick={() => { setActiveTab(tab.id); setSelectedPresenter(null); }} className={`px-3 py-2 rounded-full font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-colors ${activeTab === tab.id ? 'bg-cyan-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'}`}>
+                                    <i className={`fas ${tab.icon}`}></i>
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+                    </header>
+
+                    <main className="max-w-6xl mx-auto px-3 sm:px-4 py-4 md:py-8 flex-grow w-full flex flex-col mobile-bottom-pad">
+                          
+                        {activeTab === 'home' && (
+                            <div className="animate-slide-up text-center space-y-6 md:space-y-10 flex-grow">
+                                <div className="px-4 py-8 md:px-16 md:py-20 rounded-2xl text-white soft-shadow bg-cover bg-center relative flex flex-col justify-center" style={{ backgroundImage: "url('https://raw.githubusercontent.com/hannahbketteman-design/hannahketteman/b90deacc73ea0500829d07ae31e335e845acb252/fantastic-beach-with-palm-trees.jpg')" }}>
+                                    <div className="absolute inset-0 bg-teal-900/80 mix-blend-multiply rounded-2xl"></div>
+                                    <div className="relative z-10 flex flex-col items-center">
+                                        <h1 className="text-2xl md:text-5xl lg:text-6xl font-extrabold mb-3 md:mb-6 leading-tight">Teach Rhymes With Beach</h1>
+                                        <h2 className="text-base md:text-2xl font-bold mb-6 md:mb-8 leading-snug max-w-3xl px-2">The Conference for English Teachers, Teacher-Leaders, and Instructional Coaches</h2>
+                                          
+                                        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-xs sm:text-sm md:text-lg font-semibold mb-6">
+                                            <span className="flex items-center gap-2"><i className="far fa-calendar-alt"></i> October 18–20, 2026</span>
+                                            <span className="hidden md:inline text-white/50">|</span>
+                                            <span className="flex items-center gap-2"><i className="fas fa-map-marker-alt text-orange-400"></i> Port Aransas, Texas</span>
+                                        </div>
+
+                                        <div className="bg-white/20 border border-white/30 px-5 py-2 rounded-full backdrop-blur-sm text-xs md:text-sm font-semibold mb-6 flex items-center gap-2">
+                                            <i className="fas fa-microphone-alt text-yellow-400"></i> Hosted by Melanie Mayer Consulting
+                                        </div>
+
+                                        <a href="https://www.melaniemayerconsulting.com/summer-teach-rhymes-with-beach-registration" target="_blank" className="bg-orange-500 hover:bg-orange-600 text-white px-7 py-3.5 md:px-8 md:py-4 rounded-full font-bold text-base md:text-xl inline-flex items-center gap-2 transition shadow-lg hover:scale-105 transform">
+                                            Register Now <i className="fas fa-external-link-alt text-xs md:text-sm ml-1"></i>
+                                        </a>
+
+                                        <p className="mt-4 text-xs md:text-sm text-cyan-100 font-medium bg-black/40 backdrop-blur-sm px-4 py-2.5 rounded-lg border border-white/10 max-w-md text-center leading-relaxed">
+                                            <i className="fas fa-tag text-yellow-400 mr-1.5"></i>
+                                            Early bird pricing is $425, only available through Sept. 11. After Sept. 11, $475.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-left">
+                                    <div className="bg-white p-5 md:p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+                                        <h3 className="text-base md:text-xl font-bold text-slate-800 mb-4 md:mb-6 flex items-center gap-3">
+                                            <i className="fas fa-anchor text-teal-700"></i> Quick Logistics
+                                        </h3>
+                                        <ul className="space-y-3.5 text-slate-600 text-xs sm:text-sm md:text-base">
+                                            <li className="flex items-start gap-2.5">
+                                                <span className="text-orange-500 font-bold">•</span>
+                                                <span><strong>HQ / Check-in:</strong> FBC Worship Center (100 Station Street)</span>
+                                            </li>
+                                            <li className="flex items-start gap-2.5">
+                                                <span className="text-orange-500 font-bold">•</span>
+                                                <span><strong>Sunday 4–6 PM:</strong> Welcome Reception (Hotel Lydia)</span>
+                                            </li>
+                                            <li className="flex items-start gap-2.5">
+                                                <span className="text-orange-500 font-bold">•</span>
+                                                <span><strong>Monday 5:30 PM:</strong> Dinner at The Crazy Cajun ($12 tickets at check-in)</span>
+                                            </li>
+                                            <li className="flex items-start gap-2.5">
+                                                <span className="text-orange-500 font-bold">•</span>
+                                                <span><strong>Lunches:</strong> On your own at Port A's fabulous restaurants!</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                      
+                                    <div className="bg-white p-5 md:p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center">
+                                        <div className="bg-orange-50 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4">
+                                            <i className="fas fa-compass text-xl md:text-2xl text-orange-500"></i>
+                                        </div>
+                                        <h3 className="text-base md:text-xl font-bold text-slate-800 mb-2">Plan Your Perfect Days</h3>
+                                        <p className="text-slate-600 mb-5 max-w-sm text-xs sm:text-sm md:text-base">Browse the sessions, read up on our incredible presenters, and build your custom itinerary before you arrive.</p>
+                                        <button onClick={() => setActiveTab('schedule')} className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-2.5 rounded-full font-bold transition flex items-center gap-2 text-xs md:text-base">
+                                            Build Your Schedule <i className="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'schedule' && (
+                            <div className="animate-slide-up space-y-4 md:space-y-6">
+                                {timeBlocks.map(block => (
+                                    <div key={block.id} className="bg-white rounded-2xl p-4 md:p-6 border border-slate-100 shadow-sm">
+                                        <h3 className="font-bold text-sm md:text-lg text-teal-800 mb-3 md:mb-4">{block.name} ({block.time})</h3>
+                                        <div className="space-y-3.5">
+                                            {sessionsData.filter(s => s.block === block.name).map(session => (
+                                                <div key={session.id} className="border-b border-slate-100 pb-3.5">
+                                                    <div className="flex flex-col md:flex-row md:justify-between md:items-center cursor-pointer gap-2.5" onClick={() => setExpandedSessionId(expandedSessionId === session.id ? null : session.id)}>
+                                                        <div className="flex-1">
+                                                            <span className="font-bold block text-slate-800 text-xs sm:text-sm md:text-base">{session.title}</span>
+                                                            <span className="text-xs md:text-sm text-slate-500 font-medium">{getSessionPresenters(session)}</span>
+                                                        </div>
+                                                        <div className="flex gap-1.5 items-center flex-wrap">
+                                                            <span className="text-[11px] md:text-xs bg-orange-100 text-orange-800 px-2.5 py-1 rounded-full font-bold whitespace-nowrap">
+                                                                <i className="fas fa-map-pin mr-1"></i>{session.room}
+                                                            </span>
+                                                            <span className="text-[11px] md:text-xs bg-teal-100 text-teal-800 px-2.5 py-1 rounded-full font-bold whitespace-nowrap">
+                                                                <i className="fas fa-users mr-1"></i>{session.audience}
+                                                            </span>
+                                                            {session.audience !== 'All' ? (
+                                                                <button onClick={(e) => { e.stopPropagation(); handleScheduleSelect(block.name, session.id); }} className="text-cyan-700 font-bold text-xs md:text-sm bg-cyan-50 px-3 py-1 rounded-full hover:bg-cyan-100 transition whitespace-nowrap">Add</button>
+                                                            ) : (
+                                                                <span className="text-slate-400 font-bold text-xs md:text-sm px-2 py-1 whitespace-nowrap">General Event</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    {expandedSessionId === session.id && <p className="mt-3 text-xs md:text-sm text-slate-600 leading-relaxed border-l-2 border-cyan-500 pl-3 whitespace-pre-wrap">{session.description}</p>}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {activeTab === 'presenters' && !selectedPresenter && (
+                            <div className="animate-slide-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+                                {presentersData.map(p => (
+                                    <div key={p.id} className="bg-white p-3.5 md:p-6 rounded-xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-shadow flex flex-col items-center" onClick={() => setSelectedPresenter(p)}>
+                                        <img src={p.image} className="w-16 h-16 md:w-24 md:h-24 rounded-full mb-2.5 object-cover border-2 md:border-4 border-slate-50"/>
+                                        <h3 className="font-bold text-center text-slate-800 text-xs md:text-base">{p.name}</h3>
+                                        <p className="text-[11px] md:text-xs text-center text-slate-500 mt-0.5">{p.role}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {activeTab === 'presenters' && selectedPresenter && (
+                            <div className="animate-slide-up bg-white p-5 md:p-8 rounded-2xl shadow-sm border border-slate-100 relative">
+                                <button onClick={() => setSelectedPresenter(null)} className="text-teal-700 font-bold text-xs md:text-sm mb-4 inline-flex items-center hover:text-teal-900"><i className="fas fa-arrow-left mr-1.5"></i>Back to Presenters</button>
+                                <div className="flex flex-col items-center mt-2">
+                                    <img src={selectedPresenter.image} className="w-28 h-28 md:w-40 md:h-40 rounded-full mb-4 object-cover border-4 border-slate-50 shadow-md"/>
+                                    <h2 className="text-lg md:text-3xl font-bold text-slate-800 text-center">{selectedPresenter.name}</h2>
+                                    <p className="text-teal-800 font-semibold mb-4 uppercase tracking-wide text-xs md:text-sm text-center">{selectedPresenter.role}</p>
+                                    <p className="text-xs md:text-sm text-slate-600 leading-relaxed max-w-3xl text-center">{selectedPresenter.bio}</p>
+                                </div>
+                                  
+                                <div className="mt-8 max-w-3xl mx-auto border-t pt-6">
+                                    <h3 className="text-base md:text-xl font-bold text-slate-800 mb-3">Sessions</h3>
+                                    <div className="space-y-3">
+                                        {sessionsData.filter(s => s.presenterId === selectedPresenter.id || (s.additionalPresenters && s.additionalPresenters.includes(selectedPresenter.id))).length > 0 ? 
+                                            sessionsData.filter(s => s.presenterId === selectedPresenter.id || (s.additionalPresenters && s.additionalPresenters.includes(selectedPresenter.id))).map(session => (
+                                                <div 
+                                                    key={session.id} 
+                                                    className="bg-slate-50 p-3.5 md:p-5 rounded-xl border border-slate-100 cursor-pointer transition-colors hover:bg-slate-100"
+                                                    onClick={() => setExpandedPresenterSessionId(expandedPresenterSessionId === session.id ? null : session.id)}
+                                                >
+                                                    <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2.5">
+                                                        <div>
+                                                            <p className="text-[10px] md:text-xs text-cyan-700 font-bold mb-1 uppercase tracking-wider">{session.time}</p>
+                                                            <p className="font-bold text-slate-800 text-xs md:text-base mb-1 flex items-center gap-1.5">
+                                                                {session.title}
+                                                                <i className={`fas fa-chevron-down text-[10px] md:text-xs text-slate-400 transition-transform duration-200 ${expandedPresenterSessionId === session.id ? 'rotate-180' : ''}`}></i>
+                                                            </p>
+                                                            <p className="text-xs md:text-sm text-slate-600 font-medium"><i className="fas fa-map-pin mr-1.5 text-orange-500"></i>{session.room}</p>
+                                                        </div>
+                                                        {session.audience !== 'All' ? (
+                                                            <button 
+                                                                onClick={(e) => { e.stopPropagation(); handleScheduleSelect(session.block, session.id); }} 
+                                                                className="text-cyan-700 font-bold text-xs md:text-sm bg-cyan-100 px-3 py-1 rounded-full hover:bg-cyan-200 transition whitespace-nowrap self-start md:self-auto shrink-0 flex items-center"
+                                                            >
+                                                                <i className="fas fa-plus mr-1"></i> Add
+                                                            </button>
+                                                        ) : (
+                                                            <span className="text-slate-400 font-bold text-xs md:text-sm px-2 py-1 whitespace-nowrap self-start md:self-auto shrink-0">General Event</span>
+                                                        )}
+                                                    </div>
+                                                      
+                                                    {expandedPresenterSessionId === session.id && (
+                                                        <div className="mt-3 pt-3 border-t border-slate-200 animate-slide-up">
+                                                            <p className="text-xs md:text-sm text-slate-600 leading-relaxed border-l-2 border-cyan-500 pl-3 whitespace-pre-wrap">{session.description}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )) : 
+                                            <p className="text-slate-500 italic text-xs md:text-sm">No specific sessions listed.</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'locations' && (
+                            <div className="animate-slide-up space-y-4 md:space-y-6">
+                                <h2 className="text-lg md:text-2xl font-bold text-slate-800">Campus Map</h2>
+                                <MapComponent points={campusLocations} centerLat={27.8327} centerLng={-97.0601} zoomLevel={17} />
+                                  
+                                <div className="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                                    <h3 className="text-base md:text-xl font-bold text-slate-800 mb-4 flex items-center gap-2.5">
+                                        <i className="fas fa-building text-teal-700"></i> Session Locations Directory
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                            <span className="flex items-center justify-center w-8 h-8 bg-orange-100 text-orange-800 font-bold rounded-lg shrink-0 text-sm">A</span>
+                                            <p className="text-slate-600 text-xs md:text-sm"><strong>PAISD Admin Board Room</strong><br/>Directly across from the FBC.</p>
+                                        </div>
+                                        <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                            <span className="flex items-center justify-center w-8 h-8 bg-orange-100 text-orange-800 font-bold rounded-lg shrink-0 text-sm">B</span>
+                                            <p className="text-slate-600 text-xs md:text-sm"><strong>FBC Youth Building</strong><br/>Directly to the right of the Worship Center if facing it.</p>
+                                        </div>
+                                        <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                            <span className="flex items-center justify-center w-8 h-8 bg-orange-100 text-orange-800 font-bold rounded-lg shrink-0 text-sm">C</span>
+                                            <p className="text-slate-600 text-xs md:text-sm"><strong>Catholic Church</strong><br/>Right across the side street from FBC.</p>
+                                        </div>
+                                        <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                            <span className="flex items-center justify-center w-8 h-8 bg-orange-100 text-orange-800 font-bold rounded-lg shrink-0 text-sm">D</span>
+                                            <p className="text-slate-600 text-xs md:text-sm"><strong>Fellowship Hall</strong><br/>Right behind the Worship Center.</p>
+                                        </div>
+                                        <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100 md:col-span-2">
+                                            <span className="flex items-center justify-center w-8 h-8 bg-orange-100 text-orange-800 font-bold rounded-lg shrink-0 text-sm">E</span>
+                                            <p className="text-slate-600 text-xs md:text-sm"><strong>FBC Worship Center</strong><br/>Main HQ building.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'explore' && (
+                            <div className="animate-slide-up space-y-4 md:space-y-6">
+                                <a href="https://www.portaransas.org/chamber/" target="_blank" className="block bg-teal-800 text-white p-4 md:p-6 rounded-xl text-center font-bold text-sm md:text-lg hover:bg-teal-900 transition-colors shadow-sm">
+                                    Visit the Port Aransas Chamber of Commerce Official Guide <i className="fas fa-external-link-alt text-xs ml-1"></i>
+                                </a>
+
+                                <h2 className="text-lg md:text-2xl font-bold text-slate-800">Local Map</h2>
+                                <MapComponent 
+                                    points={[
+                                        ...localRecommendations.restaurants.map(r => ({ ...r, type: 'restaurant' })), 
+                                        ...localRecommendations.shops.map(s => ({ ...s, type: 'shop' }))
+                                    ]} 
+                                    centerLat={27.8285} 
+                                    centerLng={-97.0675} 
+                                    zoomLevel={14} 
+                                />
+
+                                <h2 className="text-lg md:text-2xl font-bold text-slate-800 mt-6">Restaurants</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {localRecommendations.restaurants.map((r, i) => (
+                                        <div key={i} className="bg-white p-4 md:p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col h-full">
+                                            <i className={`fas ${r.icon} text-2xl text-cyan-600 mb-2.5`}></i>
+                                            <h3 className="font-bold text-sm md:text-lg text-slate-800 mb-1.5">{r.name}</h3>
+                                            <p className="text-xs md:text-sm text-slate-600 mb-3 flex-grow leading-relaxed">{r.desc}</p>
+                                            <a href={r.url} target="_blank" className="text-cyan-700 font-bold text-xs md:text-sm hover:text-cyan-900 mt-auto">Visit Website →</a>
+                                        </div>
+                                    ))}
+                                </div>
+                                <h2 className="text-lg md:text-2xl font-bold text-slate-800 mt-6">Shops</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {localRecommendations.shops.map((r, i) => (
+                                        <div key={i} className="bg-white p-4 md:p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col h-full">
+                                            <i className={`fas ${r.icon} text-2xl text-cyan-600 mb-2.5`}></i>
+                                            <h3 className="font-bold text-sm md:text-lg text-slate-800 mb-1.5">{r.name}</h3>
+                                            <p className="text-xs md:text-sm text-slate-600 mb-3 flex-grow leading-relaxed">{r.desc}</p>
+                                            <a href={r.url} target="_blank" className="text-cyan-700 font-bold text-xs md:text-sm hover:text-cyan-900 mt-auto">Visit Website →</a>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'my-schedule' && (
+                            <div className="animate-slide-up space-y-4">
+                                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
+                                    <h2 className="text-lg md:text-2xl font-bold text-teal-800">My Schedule</h2>
+                                    <div className="flex gap-2">
+                                        <button onClick={clearSchedule} className="text-red-500 font-bold text-xs md:text-sm px-3 py-1.5 bg-red-50 rounded-lg hover:bg-red-100 transition">Clear All</button>
+                                        <button onClick={printSchedule} className="text-white font-bold text-xs md:text-sm px-3.5 py-1.5 bg-teal-700 rounded-lg hover:bg-teal-800 shadow-sm flex items-center gap-1.5 transition">
+                                            <i className="fas fa-print"></i> PDF
+                                        </button>
+                                    </div>
+                                </div>
+                                  
+                                <div id="schedule-print-area" className="space-y-3 p-4 md:p-6 bg-white rounded-xl shadow-sm border border-slate-100">
+                                    <h2 className="text-lg font-bold text-teal-800 mb-4 hidden" style={{ display: 'none' }}>Teach Rhymes With Beach - Schedule</h2>
+                                    {timeBlocks.map(block => {
+                                        const blockSessions = sessionsData.filter(s => s.block === block.name);
+                                        const isGeneral = blockSessions.length === 1 && blockSessions[0].audience === 'All';
+                                        const selectedSession = isGeneral ? blockSessions[0] : sessionsData.find(s => s.id === mySchedule[block.name]);
+
+                                        return (
+                                            <div key={block.id} className="p-3.5 md:p-5 rounded-lg border border-slate-100 bg-slate-50">
+                                                <h3 className="font-bold text-xs md:text-base text-teal-800 mb-2 border-b border-slate-200 pb-1.5">{block.name} ({block.time})</h3>
+                                                  
+                                                {isGeneral ? (
+                                                    <div className="pl-2.5 border-l-2 border-teal-500 mt-1.5">
+                                                        <p className="font-bold text-xs md:text-sm text-slate-800">{selectedSession ? selectedSession.title : 'General Session'}</p>
+                                                        {getSessionPresenters(selectedSession) && <p className="text-xs md:text-sm text-slate-600 font-medium mt-0.5">{getSessionPresenters(selectedSession)}</p>}
+                                                        <p className="text-[11px] md:text-xs text-slate-500 mt-1 flex items-center"><i className="fas fa-map-pin mr-1"></i>{selectedSession ? selectedSession.room : ''}</p>
+                                                    </div>
+                                                ) : (
+                                                    <div>
+                                                        <div className="no-print mb-2">
+                                                            <select 
+                                                                onChange={(e) => handleScheduleSelect(block.name, e.target.value)} 
+                                                                className="w-full p-2 border border-slate-200 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 text-xs md:text-sm" 
+                                                                value={mySchedule[block.name] || ''}
+                                                            >
+                                                                <option value="">-- Select a session to attend --</option>
+                                                                {sessionsData.filter(s => s.block === block.name).map(s => (
+                                                                    <option key={s.id} value={s.id}>{s.title}</option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+                                                          
+                                                        {selectedSession && (
+                                                            <div className="pl-2.5 border-l-2 border-cyan-500">
+                                                                <p className="font-bold text-xs md:text-sm text-slate-800">{selectedSession.title}</p>
+                                                                <p className="text-xs md:text-sm text-slate-600 font-medium mt-0.5">{getSessionPresenters(selectedSession)}</p>
+                                                                <p className="text-[11px] md:text-xs text-slate-500 mt-1 flex items-center"><i className="fas fa-map-pin mr-1"></i>{selectedSession.room}</p>
+                                                            </div>
+                                                        )}
+                                                        {!selectedSession && (
+                                                            <p className="text-xs md:text-sm text-slate-400 italic">No session selected yet.</p>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
