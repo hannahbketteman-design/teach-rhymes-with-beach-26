@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Teach Rhymes With Beach 2026</title>
     <meta name="description" content="Teach Rhymes With Beach — a conference for English teachers, teacher-leaders, and instructional coaches. October 18–20, 2026 in Port Aransas, Texas. Hosted by Melanie Mayer Consulting.">
     <meta property="og:title" content="Teach Rhymes With Beach 2026">
@@ -47,13 +47,15 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100%;
+            height: auto !important;
+            min-height: 0 !important;
+            overflow: visible !important;
             -webkit-font-smoothing: antialiased;
-            -webkit-overflow-scrolling: touch;
         }
         #root {
             width: 100%;
-            min-height: 100vh;
+            height: auto !important;
+            min-height: 0 !important;
             display: flex;
             flex-direction: column;
         }
@@ -64,7 +66,7 @@
         .soft-shadow { box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08); }
         
         .mobile-bottom-pad {
-            padding-bottom: 60px;
+            padding-bottom: calc(120px + env(safe-area-inset-bottom));
         }
           
         @media print {
